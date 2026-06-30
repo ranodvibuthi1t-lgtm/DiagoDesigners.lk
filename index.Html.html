@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheDiagoDesigners | Elite Creative Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --green: #00ff41; 
+            --dark-grey: #121212;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--black); color: var(--white); overflow-x: hidden; scroll-behavior: smooth; }
+        .rounded { border-radius: 25px; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+        }
+        .logo-img { width: 50px; height: 50px; border-radius: 12px; }
+        .brand-name { font-weight: 800; font-size: 1.5rem; letter-spacing: -1px; }
+        .brand-name span { color: var(--green); }
+
+        /* --- HERO --- */
+        .hero {
+            height: 70vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            background: radial-gradient(circle at center, #001a06 0%, #000 75%);
+            padding-top: 80px;
+        }
+        .experience-badge { border: 1px solid var(--green); padding: 8px 20px; color: var(--green); font-size: 0.7rem; letter-spacing: 3px; margin-bottom: 20px; text-transform: uppercase; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1.1; }
+
+        /* --- CATEGORIES --- */
+        .section-padding { padding: 80px 5%; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .category-card { background: var(--dark-grey); padding: 35px; border: 1px solid #222; transition: var(--transition); }
+        .category-card:hover { border-color: var(--green); transform: translateY(-5px); }
+        .category-card h4 { color: var(--green); margin-bottom: 12px; font-size: 1.3rem; }
+
+        /* --- PORTFOLIO SECTION --- */
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-top: 40px; }
+        .portfolio-item { height: 250px; background: #1a1a1a; position: relative; overflow: hidden; border: 1px solid #333; }
+        .portfolio-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.5s; }
+        .portfolio-overlay { 
+            position: absolute; bottom: -100%; left: 0; width: 100%; padding: 20px; 
+            background: linear-gradient(transparent, var(--green)); color: black; 
+            transition: 0.4s; font-weight: bold; 
+        }
+        .portfolio-item:hover .portfolio-overlay { bottom: 0; }
+        .portfolio-item:hover img { transform: scale(1.1); opacity: 1; }
+
+        /* --- BULK UPLOADER --- */
+        .uploader-zone {
+            background: #080808; border: 2px dashed #333; padding: 50px;
+            text-align: center; margin-top: 40px; transition: 0.3s;
+        }
+        .uploader-zone:hover { border-color: var(--green); background: #0a0a0a; }
+        .upload-btn { 
+            background: var(--green); color: black; padding: 15px 30px; 
+            border: none; font-weight: bold; cursor: pointer; margin-top: 20px; 
+        }
+        #file-list { margin-top: 20px; text-align: left; max-width: 500px; margin-inline: auto; font-size: 0.8rem; color: var(--green); }
+
+        /* --- ADOBE COLLECTION (Filtered) --- */
+        .adobe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 20px; margin-top: 40px; }
+        .adobe-box { 
+            background: #0f0f0f; padding: 25px; cursor: pointer; text-align: center;
+            border: 1px solid #222; transition: var(--transition);
+        }
+        .adobe-box:hover { background: #1a1a1a; transform: scale(1.05); box-shadow: 0 0 20px rgba(0,255,65,0.15); }
+        .adobe-box img { width: 55px; height: 55px; margin-bottom: 10px; }
+        .adobe-box span { display: block; font-size: 0.75rem; font-weight: 600; }
+
+        /* --- PACKAGES --- */
+        .package-card { background: var(--dark-grey); padding: 50px 40px; border: 1px solid #222; transition: var(--transition); }
+        .package-card:hover { background: var(--white); color: var(--black); }
+        .package-card h3 { color: var(--green); transition: 0.3s; }
+        .package-card:hover h3 { color: var(--black); }
+        .package-price { font-size: 3rem; font-weight: 800; margin: 20px 0; }
+        .package-card ul { list-style: none; opacity: 0.5; transition: 0.3s; }
+        .package-card:hover ul { opacity: 1; }
+
+        /* --- TEAM BOXES --- */
+        .team-box { background: var(--dark-grey); padding: 30px; text-align: center; border-bottom: 4px solid var(--green); transition: 0.3s; }
+        .team-box h3 { margin-bottom: 5px; }
+        .phone-num { font-size: 0.85rem; color: #888; margin-bottom: 15px; display: block; }
+        .wa-link { background: var(--green); color: black; text-decoration: none; font-weight: bold; padding: 10px 20px; display: inline-block; }
+        .wa-link:hover { background: white; }
+
+        /* Animations */
+        .pop-anim { animation: pop 0.4s ease; }
+        @keyframes pop { 50% { transform: scale(0.9); } 100% { transform: scale(1.1); } }
+    </style>
+</head>
+<body>
+
+    <audio id="click-sfx" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+
+    <nav>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <img src="logo.png" alt="Logo" class="logo-img">
+            <div class="brand-name">THEDIAGO<span>DESIGNERS</span></div>
+        </div>
+        <div style="font-size: 0.8rem; color: var(--green);">4 YEARS EXPERIENCE • 3 EXPERT TEAMS</div>
+    </nav>
+
+    <section class="hero">
+        <div class="experience-badge rounded">Adobe Master Collection Certified</div>
+        <h1>Futuristic<br><span>Productivity.</span></h1>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="section-padding">
+        <h2 style="text-align:center; margin-bottom:40px;">Service Categorization</h2>
+        <div class="grid-3">
+            <div class="category-card rounded"><h4>Video Editing</h4><p>Cinematic post-production and high-end VFX.</p></div>
+            <div class="category-card rounded"><h4>Graphic Design</h4><p>Modern visual solutions for digital presence.</p></div>
+            <div class="category-card rounded"><h4>Logo Design</h4><p>Minimalist branding with futuristic aesthetics.</p></div>
+            <div class="category-card rounded"><h4>Web Design</h4><p>UI/UX crafted for high conversion and beauty.</p></div>
+            <div class="category-card rounded"><h4>Web Development</h4><p>Responsive, fast, and secure coding solutions.</p></div>
+            <div class="category-card rounded"><h4>Photography</h4><p>Professional capturing & elite retouching.</p></div>
+            <div class="category-card rounded"><h4>Videography</h4><p>4K Commercial and Event production.</p></div>
+            <div class="category-card rounded"><h4>Motion Design</h4><p>Dynamic 2D/3D animations that pop.</p></div>
+            <div class="category-card rounded" style="border-style:dashed;"><h4>& Many More</h4><p>Microsoft 365 and Creative Consulting.</p></div>
+        </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section class="section-padding" style="background: #050505;">
+        <h2 style="text-align:center;">Our Portfolio</h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item rounded"><div class="portfolio-overlay">Brand Identity</div></div>
+            <div class="portfolio-item rounded"><div class="portfolio-overlay">Web Interface</div></div>
+            <div class="portfolio-item rounded"><div class="portfolio-overlay">Motion Graphics</div></div>
+            <div class="portfolio-item rounded"><div class="portfolio-overlay">Cinematic Edit</div></div>
+        </div>
+
+        <!-- BULK UPLOADER -->
+        <div class="uploader-zone rounded">
+            <h3>Admin Portfolio Portal</h3>
+            <p>Upload all project files in one go</p>
+            <input type="file" id="bulk-upload" multiple style="display:none;">
+            <button class="upload-btn rounded" onclick="document.getElementById('bulk-upload').click()">Open File Explorer</button>
+            <div id="file-list"></div>
+        </div>
+    </section>
+
+    <!-- ADOBE SELECTION -->
+    <section class="section-padding">
+        <h2 style="text-align:center;">Adobe Selection</h2>
+        <p style="text-align:center; color:#666;">Our Collection of Creative Hours</p>
+        <div class="adobe-grid">
+            <div class="adobe-box rounded" onclick="uiAction(this)"><img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon.svg"><span>Photoshop</span></div>
+            <div class="adobe-box rounded" onclick="uiAction(this)"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Adobe_Illustrator_CC_icon.svg"><span>Illustrator</span></div>
+            <div class="adobe-box rounded" onclick="uiAction(this)"><img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Adobe_Premiere_Pro_CC_icon.svg"><span>Premiere Pro</span></div>
+            <div class="adobe-box rounded" onclick="uiAction(this)"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Adobe_After_Effects_CC_icon.svg"><span>After Effects</span></div>
+            <div class="adobe-box rounded" onclick="uiAction(this)"><img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Adobe_InDesign_CC_icon.svg"><span>InDesign</span></div>
+            <div class="adobe-box rounded" onclick="uiAction(this)"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Adobe_Creative_Cloud_rainbow_icon.svg"><span>Creative Cloud</span></div>
+            <div class="adobe-box rounded" onclick="uiAction(this)"><img src="https://www.adobe.com/content/dam/cc/icons/adobe-fonts.svg"><span>Adobe Fonts</span></div>
+        </div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section class="section-padding grid-3">
+        <div class="package-card rounded">
+            <h3>BRONZE</h3>
+            <div class="package-price">$29.99</div>
+            <ul><li>Simple Logo/Graphics</li><li>Basic Video Edit</li><li>Office 365 Work</li></ul>
+        </div>
+        <div class="package-card rounded">
+            <h3>SILVER</h3>
+            <div class="package-price">$49.99</div>
+            <ul><li>Pro Branding</li><li>Advanced Editing</li><li>Full Office Support</li></ul>
+        </div>
+        <div class="package-card rounded">
+            <h3>GOLD</h3>
+            <div class="package-price">$89.99</div>
+            <ul><li>First-Class Tier Design</li><li>Motion & VFX</li><li>Web Development</li><li>Photo/Video</li></ul>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="section-padding">
+        <h2 style="text-align:center; margin-bottom:40px;">The Expert Teams</h2>
+        <div class="grid-3">
+            <!-- Ranod -->
+            <div class="team-box rounded">
+                <h3>Ranod</h3>
+                <span class="phone-num">+94 77 620 3314</span>
+                <a href="https://wa.me/94776203314" class="wa-link rounded">WhatsApp Me</a>
+            </div>
+            <!-- Yumeth -->
+            <div class="team-box rounded">
+                <h3>Yumeth</h3>
+                <span class="phone-num">+94 77 353 0502</span>
+                <a href="https://wa.me/94773530502" class="wa-link rounded">WhatsApp Me</a>
+            </div>
+            <!-- Yashod -->
+            <div class="team-box rounded">
+                <h3>Yashod</h3>
+                <span class="phone-num">+94 76 527 6196</span>
+                <a href="https://wa.me/94765276196" class="wa-link rounded">WhatsApp Me</a>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:40px;">
+            <p style="color: #666;">Main Business Line:</p>
+            <a href="https://wa.me/94716079550" style="color:var(--green); font-size: 1.4rem; text-decoration: none; font-weight: bold;">+94 71 607 9550</a>
+        </div>
+    </section>
+
+    <footer style="padding:40px; text-align:center; border-top:1px solid #111; color:#444; font-size:0.8rem;">
+        &copy; 2024 TheDiagoDesigners. All Rights Reserved.
+    </footer>
+
+    <script>
+        function uiAction(el) {
+            const sound = document.getElementById('click-sfx');
+            sound.currentTime = 0;
+            sound.play();
+            el.classList.add('pop-anim');
+            setTimeout(() => el.classList.remove('pop-anim'), 400);
+        }
+
+        // Bulk Upload Logic
+        document.getElementById('bulk-upload').addEventListener('change', function(e) {
+            const list = document.getElementById('file-list');
+            list.innerHTML = "<strong>Selected for Upload:</strong><br>";
+            const files = e.target.files;
+            for(let i=0; i<files.length; i++) {
+                list.innerHTML += "✓ " + files[i].name + "<br>";
+            }
+            if(files.length > 0) alert(files.length + " files ready to upload all in one go!");
+        });
+
+        // Click ripple animation
+        document.addEventListener('click', (e) => {
+            const rip = document.createElement('div');
+            rip.style.cssText = `position:fixed; left:${e.clientX}px; top:${e.clientY}px; width:10px; height:10px; background:var(--green); border-radius:50%; pointer-events:none; transform:translate(-50%,-50%); animation: ripple 0.5s ease-out forwards; z-index:9999;`;
+            document.body.appendChild(rip);
+            setTimeout(() => rip.remove(), 500);
+        });
+    </script>
+    <style> @keyframes ripple { 0% { transform: translate(-50%,-50%) scale(0); opacity: 1; } 100% { transform: translate(-50%,-50%) scale(8); opacity: 0; } } </style>
+</body>
+</html>
